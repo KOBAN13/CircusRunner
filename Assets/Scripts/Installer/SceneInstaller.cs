@@ -1,13 +1,15 @@
 using Character;
 using Character.Collisions;
+using Character.Loader;
 using Character.Physics;
+using Character.PlayerChoise;
 using Character.PlayerJumpController;
+using Character.ReloadTeleport;
 using Coupon;
 using CreateCoupon;
 using InputSystem;
 using Ui;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 public class SceneInstaller : MonoInstaller
@@ -15,24 +17,66 @@ public class SceneInstaller : MonoInstaller
     [field: SerializeField] public Player Player { get; private set; }
     [field: SerializeField] public InputSystemPC InputSystemPC { get; private set; }
     [field: SerializeField] public CharacterInputController CharacterController { get; private set; }
-    [field: SerializeField] public PlayerMovementController MovementController { get; private set; }
-    [field: SerializeField] public PlayerJumpController JumpController { get; private set; }
     [field: SerializeField] public CoroutineRunner CoroutineRunner { get; private set; }
     [field: SerializeField] public TicketSpawner TicketSpawner { get; private set; }
-
+    [field: SerializeField] public ReloadTeleports ReloadTeleports { get; private set; }
+    [field: SerializeField] public PlayerComponents PlayerComponents { get; private set; }
+    
     public override void InstallBindings()
     {
+        BindLoader();
         BindPlayer();
         BindInput();
         BindInputInterface();
-        BindAllInterface();
-        BindPhysics();
         BindCollisionHandler();
         BindCourutine();
         BindStopMove();
         BindPoolObject();
         BindTimeManager();
         BindTicketSpawner();
+        BindReloadTeleport();
+        BindPlayerComponents();
+        BindGravity();
+        BindPlayerJump();
+        BindPlayerMovement();
+        BindChoisePlayer();
+    }
+
+    private void BindChoisePlayer()
+    {
+        Container.BindInterfacesAndSelfTo<СhoicePlayer>().AsSingle().NonLazy();
+    }
+
+    private void BindLoader()
+    {
+        Container.BindInterfacesAndSelfTo<AddressableLoader>().AsSingle().NonLazy();
+    }
+
+    private void BindGravity()
+    {
+        Container.BindInterfacesAndSelfTo<Gravity>().AsSingle().NonLazy();
+    }
+
+    private void BindReloadTeleport()
+    {
+        Container.BindInterfacesAndSelfTo<ReloadTeleports>().FromInstance(ReloadTeleports).AsTransient().NonLazy();
+    }
+
+    private void BindPlayerJump()
+    {
+        Container.BindInterfacesAndSelfTo<PlayerTeleportJumpController>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<PlayerClownJumpController>().AsSingle().NonLazy();
+    }
+    
+    private void BindPlayerMovement()
+    {
+        Container.BindInterfacesAndSelfTo<PlayerClownMovementController>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<PlayerTeleportMovementController>().AsSingle().NonLazy();
+    }
+
+    private void BindPlayerComponents()
+    {
+        Container.BindInterfacesAndSelfTo<PlayerComponents>().FromInstance(PlayerComponents).AsSingle().NonLazy();
     }
 
     private void BindTicketSpawner()
@@ -49,21 +93,10 @@ public class SceneInstaller : MonoInstaller
     {
         Container.BindInterfacesAndSelfTo<TimeManager>().AsSingle().NonLazy();
     }
-    
-    private void BindAllInterface()
-    {
-        Container.BindInterfacesAndSelfTo<PlayerMovementController>().FromInstance(MovementController).AsCached().NonLazy();
-        Container.BindInterfacesAndSelfTo<PlayerJumpController>().FromInstance(JumpController).AsCached().NonLazy();
-    }
 
     private void BindCollisionHandler()
     {
         Container.BindInterfacesAndSelfTo<CollisionHandler>().AsSingle().NonLazy();
-    }
-
-    private void BindPhysics()
-    {
-        Container.BindInterfacesAndSelfTo<Gravity>().AsSingle().NonLazy();
     }
 
     private void BindCourutine()

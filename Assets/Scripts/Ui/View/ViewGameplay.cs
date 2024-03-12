@@ -1,4 +1,7 @@
-﻿using TMPro;
+﻿using System;
+using Character.PlayerChoise;
+using Configs;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -12,13 +15,20 @@ namespace Ui
         
         [field: SerializeField] public Canvas UiGame { get; private set; }
         [field: SerializeField] public Canvas Pause { get; private set; }
+        [field: SerializeField] public Canvas ChoisePlayer { get; private set; }
         [field: SerializeField] public Button Resume { get; private set; }
 
+        [field: SerializeField] public Button ClownPlayer { get; private set; }
+        [field: SerializeField] public Button TeleporterPlayer { get; private set; }
+        private IInvoke _сhoicePlayer;
+        
         [Inject]
-        public void Construct(ViewModel viewModel)
+        public void Construct(ViewModel viewModel, IInvoke invoke)
         {
             _viewModel = viewModel;
+            _сhoicePlayer = invoke;
             Pause.enabled = false;
+            UiGame.enabled = false;
         }
         
         public void OnEnable()
@@ -39,6 +49,24 @@ namespace Ui
         {
             Time.timeScale = 1f;
             _viewModel.NameLoadScene.Value = "StartGame";
+        });
+
+        public void AddListenerClownPlayer() => ClownPlayer.onClick.AddListener(() =>
+        {
+            //_viewModel.ChoisePlayer.Value = typeof(СlownPlayerSettings);
+            _сhoicePlayer.Invoke(typeof(СlownPlayerSettings));
+            _viewModel.UnLockCanvas.Value = ChoisePlayer;
+            _viewModel.LockCanvas.Value = ChoisePlayer;
+            _viewModel.UnLockCanvas.Value = UiGame;
+
+        });
+        public void AddListenerTeleporterPlayer() => TeleporterPlayer.onClick.AddListener(() =>
+        {
+            //_viewModel.ChoisePlayer.Value = typeof(TeleporterPlayerSettings);
+            _сhoicePlayer.Invoke(typeof(TeleporterPlayerSettings));
+            _viewModel.UnLockCanvas.Value = ChoisePlayer;
+            _viewModel.LockCanvas.Value = ChoisePlayer;
+            _viewModel.UnLockCanvas.Value = UiGame;
         });
         
         private void CanvasLock(bool isPause)

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -29,7 +28,11 @@ namespace Ui
 
         public void AddListenerButtonPlay()
         {
-            Play.onClick.AddListener(() => _viewModel.NameLoadScene.Value = "FinalLevel");
+            Play.onClick.AddListener(() =>
+            {
+                Time.timeScale = 0f;
+                _viewModel.NameLoadScene.Value = "FinalLevel";
+            });
         }
 
         public void AddListenerAuthors()

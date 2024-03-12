@@ -16,7 +16,7 @@ namespace Character.Collisions
         
         public void OnTriggerEnter(Collider other)
         {
-            _collisionHandler.HandleLimiterCollision(this);
+            _collisionHandler.NotifyLimiterCollision(this);
         }
     }
 }

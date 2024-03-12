@@ -1,4 +1,5 @@
-﻿using Ui;
+﻿using Character.PlayerChoise;
+using Ui;
 using Zenject;
 
 namespace Installer
@@ -9,11 +10,12 @@ namespace Installer
         {
             BindModel();
         }
-        
+
         private void BindModel()
         {
             Container.BindInterfacesAndSelfTo<Model>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ViewModel>().AsSingle().NonLazy();
         }
+        
     }
 }

@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{dbb028bf-bceb-fc8e-889f-ab588de7bbb5}</ProjectGuid>
+    <ProjectGuid>{49249aed-c24b-c003-1cb1-7dae319ad0f5}</ProjectGuid>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -304,7 +304,7 @@
      <HintPath>Z:\Новая папка\2021.3.8f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
      </Reference>
      <Reference Include="nunit.framework">
-     <HintPath>Z:\RunnerCircus\Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
+     <HintPath>Z:\Ранер церикус\Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>Z:\Новая папка\2021.3.8f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\mscorlib.dll</HintPath>
@@ -682,21 +682,21 @@
      <HintPath>Z:\Новая папка\2021.3.8f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.TestRunner">
-     <HintPath>Z:\RunnerCircus\Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
+     <HintPath>Z:\Ранер церикус\Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.TestRunner">
-     <HintPath>Z:\RunnerCircus\Library\ScriptAssemblies\UnityEditor.TestRunner.dll</HintPath>
+     <HintPath>Z:\Ранер церикус\Library\ScriptAssemblies\UnityEditor.TestRunner.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.UI">
-     <HintPath>Z:\RunnerCircus\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+     <HintPath>Z:\Ранер церикус\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
-     <HintPath>Z:\RunnerCircus\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+     <HintPath>Z:\Ранер церикус\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Zenject.csproj">
-      <Project>{a249a4eb-621c-e6c0-5696-75918d755d82}</Project>
+      <Project>{2d60e216-fa05-80c0-43d4-488e2530f1e8}</Project>
       <Name>Zenject</Name>
     </ProjectReference>
   </ItemGroup>

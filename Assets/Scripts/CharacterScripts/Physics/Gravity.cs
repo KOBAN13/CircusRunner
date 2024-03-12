@@ -7,14 +7,11 @@ namespace Character.Physics
     public class Gravity : ITickable
     {
         private float _gravityForce = 9.8f;
-        private IPlayerSettings _playerSettings;
+        private PlayerComponents _playerComponents;
 
         [Inject]
-        public void Construct(IPlayerSettings playerSettings)
-        {
-            _playerSettings = playerSettings ?? throw new ArgumentNullException($"{nameof(playerSettings)}");
-        }
-        
+        public void Construct(PlayerComponents playerComponents) => _playerComponents = playerComponents;
+
         public void Tick()
         {
             GravityHandling();
@@ -31,9 +28,9 @@ namespace Character.Physics
 
         private void GravityHandling()
         {
-            if (!_playerSettings.CharacterController.isGrounded)
+            if (!_playerComponents.CharacterController.isGrounded)
             {
-                _playerSettings.TargetDirectionY -= _gravityForce * Time.deltaTime;
+                _playerComponents.TargetDirectionY -= _gravityForce * Time.deltaTime;
             }
         }
     }

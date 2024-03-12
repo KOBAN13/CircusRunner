@@ -1,6 +1,10 @@
 <linker>
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="Configs.PlayerClownJump" preserve="all" />
+    <type fullname="Configs.PlayerJumpTeleporter" preserve="all" />
+    <type fullname="Configs.TeleporterPlayerSettings" preserve="all" />
     <type fullname="Coupon.Ticket" preserve="all" />
+    <type fullname="СlownPlayerSettings" preserve="all" />
   </assembly>
   <assembly fullname="Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">
     <type fullname="UnityEngine.AddressableAssets.Addressables" preserve="all" />

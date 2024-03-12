@@ -63,7 +63,7 @@ namespace Character.Collisions
         {
             _stopMovable.OnSubcribeEvent();
             _stopMovable.InvokeEventStopMovements(config);
-            yield return new WaitForSeconds(config.ConfigPlayer.RecoveryTimeAfterCollision);
+            yield return new WaitForSeconds(config.Config.RecoveryTimeAfterCollision);
             
             _stopMovable.Dispose();
         }

@@ -13,9 +13,9 @@ namespace InputSystem
         public event Action OnMoveCharacter;
 
         [Inject]
-        public void Construct(Player player, InputSystemPC inputSystem)
+        public void Construct(IControllable player, InputSystemPC inputSystem)
         {
-            _controllable = player ? player : throw new ArgumentNullException($"{nameof(inputSystem)} is null");
+            _controllable = player ??  throw new ArgumentNullException($"{nameof(inputSystem)} is null");
             _input = inputSystem ? inputSystem : throw new ArgumentNullException($"{nameof(inputSystem)} is null");
         }
         

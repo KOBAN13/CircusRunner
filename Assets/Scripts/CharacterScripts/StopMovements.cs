@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using Character.PlayerJumpController;
-using Configs;
 using UnityEngine;
 using Zenject;
 
@@ -9,17 +8,15 @@ namespace Character
 {
     public class StopMovements : IStopMovable
     {
-        private IMovable _movable;
-        private IJumpable _jumpable;
-        
+        private IMovement _movement;
+
         private event Action<IUseConfigable> StopMove;
         private CoroutineHelper _coroutineHelper;
         
         [Inject]
-        public void Construct(IMovable move, IJumpable jump, CoroutineHelper coroutineHelper)
+        public void Construct(IMovement movement, CoroutineHelper coroutineHelper)
         {
-            _movable = move ?? throw new ArgumentNullException($"{nameof(move)} is null fix this");
-            _jumpable = jump ?? throw new ArgumentNullException($"{nameof(jump)} is null fix this");
+            _movement = movement ?? throw new ArgumentNullException($"{nameof(movement)} is null fix this");
             _coroutineHelper = coroutineHelper ?? throw new ArgumentNullException($"{nameof(coroutineHelper)} is null fix this");
         }
         
@@ -34,26 +31,26 @@ namespace Character
         
         private void StopMovementsForDuration(IUseConfigable config)
         {
-            _jumpable.IsJump = false;
-            _coroutineHelper.StartExternalCoroutine(ResumeJumpAfterDelay(config.ConfigPlayer.RecoveryTimeAfterCollision));
+            _movement.Jumpable.IsJump = false;
+            _coroutineHelper.StartExternalCoroutine(ResumeJumpAfterDelay(config.Config.RecoveryTimeAfterCollision));
             _coroutineHelper.StartExternalCoroutine(InterpolateSpeed(config));
         }
 
         private IEnumerator ResumeJumpAfterDelay(float duration)
         {
             yield return new WaitForSeconds(duration);
-            _jumpable.IsJump = true;
+            _movement.Jumpable.IsJump = true;
         }
 
         private IEnumerator InterpolateSpeed(IUseConfigable config)
         {
             var elapsedTime = 0f;
-            var speedAfterCollision = config.ConfigPlayer.MaxSpeed / 4;
+            var speedAfterCollision = config.Config.MaxSpeed / 4;
             
-            while (elapsedTime < config.ConfigPlayer.RecoveryTimeAfterCollision)
+            while (elapsedTime < config.Config.RecoveryTimeAfterCollision)
             {
-                _movable.Speed = Mathf.Lerp(speedAfterCollision, config.ConfigPlayer.MaxSpeed,
-                    elapsedTime / config.ConfigPlayer.RecoveryTimeAfterCollision);
+                _movement.Movable.Speed = Mathf.Lerp(speedAfterCollision, config.Config.MaxSpeed,
+                    elapsedTime / config.Config.RecoveryTimeAfterCollision);
 
                 elapsedTime += Time.deltaTime;
                 yield return null;

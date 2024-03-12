@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Character.Collisions;
+using Character.Loader;
 using Configs;
 using Coupon;
 using UnityEngine;
@@ -28,9 +29,9 @@ namespace CreateCoupon
         private Dictionary<Limiter, List<Transform>> _limiterZone = new();
 
         [Inject]
-        public void Construct(PoolObject<Ticket> poolObject)
+        public void Construct(PoolObject<Ticket> poolObject, AddressableLoader loader)
         {
-            _couponFactory = new CouponFactory(poolObject, TicketConfig);
+            _couponFactory = new CouponFactory(poolObject, TicketConfig, loader);
         }
 
         private void Awake()
@@ -42,6 +43,7 @@ namespace CreateCoupon
             _limiterZone.Add(LimiterSpawnTicket[2], SpawnPointFourth);
             _limiterZone.Add(LimiterSpawnTicket[3], SpawnPointFifth);
         }
+
 
         public void HandlerLimiter(Limiter limiter)
         {

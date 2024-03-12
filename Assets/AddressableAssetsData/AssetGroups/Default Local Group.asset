@@ -21,6 +21,22 @@ MonoBehaviour:
     m_Address: Coupon
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 7d81ca0a84ac5ec46bc5aa87e67f2a8c
+    m_Address: ClownJump
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 63194e0b64f28ae4b8bf8ad8075d99a6
+    m_Address: TeleporterJump
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2c6917a0b7ee76c4f968851e9887b429
+    m_Address: TeleporterConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fc8ea41bbcaa0dc48a457f397be7ee1c
+    m_Address: ClownConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: b04c9180c0aedcc42b752da1e54868ff, type: 2}
   m_SchemaSet:

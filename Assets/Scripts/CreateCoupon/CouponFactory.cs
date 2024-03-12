@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
+using Character.Loader;
 using Configs;
 using Coupon;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace CreateCoupon
 {
@@ -13,12 +11,14 @@ namespace CreateCoupon
         private PoolObject<Ticket> _poolObject;
         private GameObject _coupon;
         private TicketConfig _ticketConfig;
+        private AddressableLoader _addressableLoader;
 
-        public CouponFactory(PoolObject<Ticket> poolObject, TicketConfig ticketConfig)
+        public CouponFactory(PoolObject<Ticket> poolObject, TicketConfig ticketConfig, AddressableLoader loader)
         {
-            _ticketConfig = ticketConfig ? ticketConfig : throw new ArgumentNullException($"{nameof(poolObject)} is null fix this");
+            _ticketConfig = ticketConfig ? ticketConfig : throw new ArgumentNullException($"{nameof(ticketConfig)} is null fix this");
             
             _poolObject = poolObject ?? throw new ArgumentNullException($"{nameof(poolObject)} is null fix this");
+            _addressableLoader = loader ?? throw new ArgumentNullException($"{nameof(loader)} is null fix this");
             
             InitPrefab(_ticketConfig.PathLoadPrefab);
         }
@@ -30,29 +30,9 @@ namespace CreateCoupon
 
         private async void InitPrefab(string path)
         {
-            _coupon = await LoadCoupon(path);
+            _coupon = await _addressableLoader.Loader<GameObject>(path);
             
             _poolObject.AddElementsInPool(_ticketConfig.KeyForGetCoupon, _coupon, _ticketConfig.CountCouponInScene);
-        }
-
-        private async Task<GameObject> LoadCoupon(string path)
-        {
-            TaskCompletionSource<GameObject> isTaskCompletion = new TaskCompletionSource<GameObject>();
-
-            try
-            {
-                AsyncOperationHandle<GameObject> coupon = Addressables.LoadAssetAsync<GameObject>(path);
-                await coupon.Task;
-
-                if (coupon.Status == AsyncOperationStatus.Succeeded) isTaskCompletion.SetResult(coupon.Result);
-                else isTaskCompletion.SetException(new Exception("Failed load asset"));
-            }
-            catch (Exception exception)
-            {
-                isTaskCompletion.SetException(exception);
-            }
-
-            return await isTaskCompletion.Task;
         }
     }
 }
