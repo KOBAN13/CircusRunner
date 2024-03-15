@@ -9,14 +9,11 @@ public class FinishLevel : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        // if (other.TryGetComponent<Level>(out var level))
-        // {
-        //     if (Level == level.SpawnPointPlayer.Count)
-        //         LoadScene();
-        //     
-        //     level.SetTransformNext(Level);
-        // }
-        
-        LoadScene();
+        if (other.TryGetComponent<Level>(out var level))
+        {
+            if (Level == level.SpawnPointPlayer.Count)
+                LoadScene();
+            level.SetTransformNext(Level);
+        }
     }
 }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ea3b7acfee41d4b1c36e4633907e05, type: 3}
   m_Name: Coupon Factory Configs
   m_EditorClassIdentifier: 
-  <CountCouponInScene>k__BackingField: 10
+  <CountCouponInScene>k__BackingField: 5
   <KeyForGetCoupon>k__BackingField: Coupon
   <PathLoadPrefab>k__BackingField: Coupon

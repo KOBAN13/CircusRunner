@@ -1,4 +1,5 @@
 using System;
+using Character.PlayerChoise;
 using Configs;
 using InputSystem;
 using UnityEngine;
@@ -6,7 +7,7 @@ using Zenject;
 
 namespace Character.PlayerJumpController
 {
-    public class PlayerClownMovementController : PlayerBaseMovement, IMovable, ITickable
+    public class PlayerClownMovementController : PlayerBaseMovement, IMovable, ITickable, IInit
     {
         private bool _isPlayerClown;
         [Inject]
@@ -15,9 +16,10 @@ namespace Character.PlayerJumpController
             PlayerComponents = playerComponents;
         }
 
-        public void Init(СlownPlayerSettings configPlayer)
+        public void Init<T>(T playerSettings)
         {
-            speed = configPlayer.MaxSpeed;
+            var playerSetting = playerSettings as СlownPlayerSettings;
+            if (playerSetting != null) speed = playerSetting.MaxSpeed;
             _isPlayerClown = true;
         }
 
@@ -40,8 +42,7 @@ namespace Character.PlayerJumpController
 
         private void MoveForward()
         {
-            var horizontal = Input.GetAxis("Horizontal");
-            _axis = horizontal;
+            _axis = Input.GetAxis("Horizontal");
             TargetDirection.x = speed;
             TargetDirection.z = speed * -_axis;
             TargetDirection.y = PlayerComponents.TargetDirectionY;
@@ -52,6 +53,7 @@ namespace Character.PlayerJumpController
         {
             if (!_isPlayerClown) return;
             MoveForward();
+            
             Debug.Log(TargetDirection);
         }
     }

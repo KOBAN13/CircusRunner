@@ -1,37 +1,38 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+using Character.PlayerChoise;
+using Character.ReloadTeleport;
 using Configs;
 using InputSystem;
 using UnityEngine;
 using Zenject;
-using Character.ReloadTeleport;
 
 namespace Character.PlayerJumpController
 {
-    [RequireComponent(typeof(CharacterController))]
-    public class PlayerTeleportMovementController : PlayerBaseMovement, IMovable, ITickable
+    public class PlayerTeleportMovementController : PlayerBaseMovement, IMovable, ITickable, IInit
     {
-        private CoroutineHelper _reloadTeleports;
+        private CoroutineHelper _coroutineHelper;
         private TeleporterPlayerSettings _playerSettings;
+        private ReloadTeleports _reloadTeleports;
         private bool _isPlayerTeleporter;
-        private Vector3 targetPosition;
+        private Vector3 _targetPosition;
 
         [Inject]
-        public void Construct(PlayerComponents playerComponents, CoroutineHelper reloadTeleports)
+        public void Construct(PlayerComponents playerComponents, CoroutineHelper coroutineHelper, ReloadTeleports reloadTeleports)
         {
             PlayerComponents = playerComponents;
+            _coroutineHelper = coroutineHelper;
             _reloadTeleports = reloadTeleports;
         }
 
-        public void Init(TeleporterPlayerSettings playerSettings)
+        public void Init<T>(T playerSettings)
         {
-            _playerSettings = playerSettings;
+            _playerSettings = playerSettings as TeleporterPlayerSettings;
             _isPlayerTeleporter = true;
+            if (_playerSettings == null) throw new ArgumentNullException(nameof(playerSettings));
             speed = _playerSettings.MaxSpeed;
         }
         
-
         public float Speed
         {
             get => speed;
@@ -51,6 +52,9 @@ namespace Character.PlayerJumpController
 
         public void Move(Swipe axis)
         {
+            if(_reloadTeleports.KeyPressing) return;
+            _reloadTeleports.KeyDelay();
+            
             switch (axis)
             {
                 case Swipe.Right:
@@ -67,12 +71,13 @@ namespace Character.PlayerJumpController
                 }
             }
             
-            _reloadTeleports.StartExternalCoroutine(MoveObjectCoroutine());
+            _coroutineHelper.StartExternalCoroutine(MoveObjectCoroutine());
         }
 
         private void MoveForward()
         {
             if(!_isPlayerTeleporter) return;
+            TargetDirection.y = PlayerComponents.TargetDirectionY;
             TargetDirection.x = speed;
             PlayerComponents.CharacterController.Move(TargetDirection * Time.deltaTime);
         }
@@ -81,26 +86,25 @@ namespace Character.PlayerJumpController
         {
             PlayerComponents.Player.gameObject.SetActive(false);
             Vector3 startPosition = PlayerComponents.Player.transform.position;
-            targetPosition = new Vector3(PlayerComponents.Player.transform.position.x, PlayerComponents.Player.transform.position.y, _playerSettings.FirstPosition + _lineToMove * _playerSettings.LineDistance);
+            _targetPosition = new Vector3(PlayerComponents.Player.transform.position.x, PlayerComponents.Player.transform.position.y, 
+                _playerSettings.FirstPosition + _lineToMove * _playerSettings.LineDistance);
 
-            float startTime = Time.time;
-            float elapsedTime = 0f;
+            var startTime = Time.time;
+            var elapsedTime = 0f;
 
             while (elapsedTime < 0.1f)
             {
                 elapsedTime = Time.time - startTime;
-                float t = Mathf.Clamp01(elapsedTime / 0.1f);
+                var t = Mathf.Clamp01(elapsedTime / 0.1f);
 
-                PlayerComponents.Player.transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+                PlayerComponents.Player.transform.position = Vector3.Lerp(startPosition, _targetPosition, t);
                 
                 TargetDirection.x = speed;
                 yield return null;
-            }
-
-            // Убедитесь что позиция на выходе точно соответствует целевой
-            PlayerComponents.Player.transform.position = targetPosition;
+            } 
+            
+            PlayerComponents.Player.transform.position = _targetPosition;
             PlayerComponents.Player.gameObject.SetActive(true);
         }
-        
     }
 }

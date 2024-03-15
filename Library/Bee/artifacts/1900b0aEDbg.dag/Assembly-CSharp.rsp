@@ -401,6 +401,7 @@
 "Assets/Scripts/CharacterScripts/PlayerMovementController/PlayerClownMovmentController.cs"
 "Assets/Scripts/CharacterScripts/PlayerMovementController/PlayerTeleportMovementController.cs"
 "Assets/Scripts/CharacterScripts/PlayerСhoice/ChoisePlayer.cs"
+"Assets/Scripts/CharacterScripts/PlayerСhoice/IInit.cs"
 "Assets/Scripts/CharacterScripts/PlayerСhoice/IInvoke.cs"
 "Assets/Scripts/CharacterScripts/PlayerСhoice/IVisitor.cs"
 "Assets/Scripts/CharacterScripts/ReloadTeleport/ReloadTeleports.cs"

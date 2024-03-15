@@ -20,13 +20,12 @@ namespace Ui
 
         [field: SerializeField] public Button ClownPlayer { get; private set; }
         [field: SerializeField] public Button TeleporterPlayer { get; private set; }
-        private IInvoke _сhoicePlayer;
-        
+
         [Inject]
         public void Construct(ViewModel viewModel, IInvoke invoke)
         {
             _viewModel = viewModel;
-            _сhoicePlayer = invoke;
+            _viewModel.InvokeChoisePlayer = invoke;
             Pause.enabled = false;
             UiGame.enabled = false;
         }
@@ -53,20 +52,18 @@ namespace Ui
 
         public void AddListenerClownPlayer() => ClownPlayer.onClick.AddListener(() =>
         {
-            //_viewModel.ChoisePlayer.Value = typeof(СlownPlayerSettings);
-            _сhoicePlayer.Invoke(typeof(СlownPlayerSettings));
-            _viewModel.UnLockCanvas.Value = ChoisePlayer;
+            _viewModel.ChoisePlayer.Value = typeof(СlownPlayerSettings);
+            _viewModel.UnlockCanvas.Value = ChoisePlayer;
             _viewModel.LockCanvas.Value = ChoisePlayer;
-            _viewModel.UnLockCanvas.Value = UiGame;
+            _viewModel.UnlockCanvas.Value = UiGame;
 
         });
         public void AddListenerTeleporterPlayer() => TeleporterPlayer.onClick.AddListener(() =>
         {
-            //_viewModel.ChoisePlayer.Value = typeof(TeleporterPlayerSettings);
-            _сhoicePlayer.Invoke(typeof(TeleporterPlayerSettings));
-            _viewModel.UnLockCanvas.Value = ChoisePlayer;
+            _viewModel.ChoisePlayer.Value = typeof(TeleporterPlayerSettings);
+            _viewModel.UnlockCanvas.Value = ChoisePlayer;
             _viewModel.LockCanvas.Value = ChoisePlayer;
-            _viewModel.UnLockCanvas.Value = UiGame;
+            _viewModel.UnlockCanvas.Value = UiGame;
         });
         
         private void CanvasLock(bool isPause)

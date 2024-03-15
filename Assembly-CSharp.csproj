@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\Ui\TimeManager.cs" />
      <Compile Include="Assets\Scripts\Ui\View\View.cs" />
      <Compile Include="Assets\Scripts\Ui\View\ViewStartGame.cs" />
+     <Compile Include="Assets\Scripts\Ui\Finish\Level.cs" />
      <Compile Include="Assets\Scripts\Configs\Movement\TeleporterPlayerSettings.cs" />
      <Compile Include="Assets\Scripts\CharacterScripts\PlayerMovementController\IMovable.cs" />
      <Compile Include="Assets\Scripts\Ui\Finish\FinishLevel.cs" />
@@ -94,6 +95,7 @@
      <Compile Include="Assets\Scripts\Configs\Ticket\TicketConfig.cs" />
      <Compile Include="Assets\Scripts\CharacterScripts\Collisions\BootstrapCollision.cs" />
      <Compile Include="Assets\Scripts\Ui\UiInterface\ITime.cs" />
+     <Compile Include="Assets\Scripts\CharacterScripts\PlayerСhoice\IInit.cs" />
      <Compile Include="Assets\Scripts\CharacterScripts\PlayerСhoice\ChoisePlayer.cs" />
      <Compile Include="Assets\Scripts\CharacterScripts\PlayerMovementController\PlayerTeleportMovementController.cs" />
      <Compile Include="Assets\Scripts\CharacterScripts\PlayerJumpController\PlayerTeleportJumpController.cs" />
@@ -101,7 +103,6 @@
      <Compile Include="Assets\Scripts\CreateCoupon\TicketSpawner.cs" />
      <Compile Include="Assets\Scripts\InputSystem\IUseInputSystem.cs" />
      <Compile Include="Assets\Scripts\InputSystem\InputSystemPC.cs" />
-     <Compile Include="Assets\Scripts\Ui\Finish\Level.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

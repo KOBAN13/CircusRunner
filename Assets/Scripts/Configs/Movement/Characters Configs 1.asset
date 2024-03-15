@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <LineDistance>k__BackingField: -2.5
   <FirstPosition>k__BackingField: 2.5
-  <SliderSpeed>k__BackingField: 50
   <MinSpeed>k__BackingField: 0
   <MaxSpeed>k__BackingField: 10
   <TimeToReachMaximumSpeed>k__BackingField: 3
   <RecoveryTimeAfterCollision>k__BackingField: 1.5
+  <DelayBetweenKeyMover>k__BackingField: 0.7
   <PlayerJumpTeleporter>k__BackingField: {fileID: 11400000, guid: 63194e0b64f28ae4b8bf8ad8075d99a6, type: 2}

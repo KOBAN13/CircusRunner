@@ -5,6 +5,7 @@ using Character.Collisions;
 using Character.Loader;
 using Configs;
 using Coupon;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -16,8 +17,6 @@ namespace CreateCoupon
         [field: SerializeField] public List<Transform> SpawnPointFirst { get; private set; }
         [field: SerializeField] public List<Transform> SpawnPointSecond { get; private set; }
         [field: SerializeField] public List<Transform> SpawnPointThird { get; private set; }
-        [field: SerializeField] public List<Transform> SpawnPointFourth { get; private set; }
-        [field: SerializeField] public List<Transform> SpawnPointFifth { get; private set; }
         [field: SerializeField] public List<Limiter> LimiterSpawnTicket { get; private set; }
         
         [field: Header("Coupon Spawn Settings")]
@@ -25,7 +24,6 @@ namespace CreateCoupon
 
         private List<Ticket> _tickets = new();
         private CouponFactory _couponFactory;
-
         private Dictionary<Limiter, List<Transform>> _limiterZone = new();
 
         [Inject]
@@ -40,11 +38,8 @@ namespace CreateCoupon
             
             _limiterZone.Add(LimiterSpawnTicket[0], SpawnPointSecond);
             _limiterZone.Add(LimiterSpawnTicket[1], SpawnPointThird);
-            _limiterZone.Add(LimiterSpawnTicket[2], SpawnPointFourth);
-            _limiterZone.Add(LimiterSpawnTicket[3], SpawnPointFifth);
         }
-
-
+        
         public void HandlerLimiter(Limiter limiter)
         {
             _tickets

@@ -1,15 +1,23 @@
-using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 
 namespace Character.ReloadTeleport
 {
     public class ReloadTeleports : MonoBehaviour
     {
-        [field: SerializeField] public int TimeToReloadTeleportInMilliseconds { get; private set; }
+        [field: SerializeField] public float TimeToReloadTeleportInSecond { get; private set; }
+        public bool KeyPressing { get; private set; }
         
-        public async Task Teleport()
+        public void KeyDelay()
         {
-            await Task.Delay(TimeToReloadTeleportInMilliseconds);
+            KeyPressing = true;
+            StartCoroutine(ExecuteWithDelay());
+        }
+
+        private IEnumerator ExecuteWithDelay()
+        {
+            yield return new WaitForSeconds(TimeToReloadTeleportInSecond);
+            KeyPressing = false;
         }
     }
 }

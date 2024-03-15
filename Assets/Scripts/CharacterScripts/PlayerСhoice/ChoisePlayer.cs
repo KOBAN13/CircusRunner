@@ -5,6 +5,7 @@ using Character.PlayerJumpController;
 using Configs;
 using UnityEngine;
 using Zenject;
+using Task = UnityEditor.VersionControl.Task;
 
 namespace Character.PlayerChoise
 {
@@ -25,7 +26,6 @@ namespace Character.PlayerChoise
 
         private DiContainer _diContainer;
         private Player _player;
-
 
         public void Initialize()
         {
@@ -53,29 +53,30 @@ namespace Character.PlayerChoise
             _addressableLoader = loader;
         }
 
-        private async void OnPlayerClownPlay()
+        private void OnPlayerClownPlay()
         {
-            _clownPlayerSettings = await LoadConfigs(_clownPlayerSettings, ClownConfig);
-            var playerClownMover = GetItemFromContainer<PlayerClownMovementController>();
-            var playerClownJump = GetItemFromContainer<PlayerClownJumpController>();
-            
-            playerClownMover.Init(_clownPlayerSettings);
-            playerClownJump.Init(_clownPlayerSettings);
-            
-            _player.Init(playerClownMover, playerClownJump, _clownPlayerSettings);
-            Time.timeScale = 1f;
+            PlayerTypePlayer(LoadConfigs(_clownPlayerSettings, ClownConfig), 
+                typeof(PlayerClownMovementController), typeof(PlayerClownJumpController), _clownPlayerSettings);
         }
 
-        private async void OnPlayerTeleporterPlay()
+        private void OnPlayerTeleporterPlay()
         {
-            _teleporterPlayerSettings = await LoadConfigs(_teleporterPlayerSettings,TeleporterConfig);
-            var playerTeleporterMover = GetItemFromContainer<PlayerTeleportMovementController>();
-            var playerTeleporterJump = GetItemFromContainer<PlayerTeleportJumpController>();
+            PlayerTypePlayer(LoadConfigs(_teleporterPlayerSettings, TeleporterConfig),
+                typeof(PlayerTeleportMovementController), typeof(PlayerTeleportJumpController), _teleporterPlayerSettings);
+        }
+
+        private async void PlayerTypePlayer<T>(Task<T> loadConf, Type moverType, Type jumpType, T configSettings)
+        {
+            configSettings = await loadConf;
+
+            var playerMover = GetItemFromContainer(moverType) as IInit;
+            var playerJump = GetItemFromContainer(jumpType) as IInit;
+
+            playerMover?.Init(configSettings);
+            playerJump?.Init(configSettings);
             
-            playerTeleporterMover.Init(_teleporterPlayerSettings);
-            playerTeleporterJump.Init(_teleporterPlayerSettings);
             
-            _player.Init(playerTeleporterMover, playerTeleporterJump, _teleporterPlayerSettings);
+            _player.Init(playerMover as IMovable, playerJump as IJumpable, configSettings as IConfigable);
             Time.timeScale = 1f;
         }
 
@@ -90,6 +91,6 @@ namespace Character.PlayerChoise
             return typeConfSetting;
         }
 
-        private T GetItemFromContainer<T>() => _diContainer.Resolve<T>();
+        private object GetItemFromContainer(Type type) => _diContainer.Resolve(type);
     }
 }

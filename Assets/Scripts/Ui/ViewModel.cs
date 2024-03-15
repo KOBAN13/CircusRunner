@@ -10,6 +10,7 @@ namespace Ui
     public class ViewModel
     {
         private Model _model;
+        public IInvoke InvokeChoisePlayer;
             
         public readonly ReactiveProperty<string> NameLoadScene = new();
         public readonly ReactiveProperty<string> TelegramLink = new();
@@ -19,7 +20,7 @@ namespace Ui
         
         public readonly ReactiveProperty<bool> IsPause = new();
         public readonly ReactiveProperty<Type> ChoisePlayer = new();
-        public readonly ReactiveProperty<Canvas> UnLockCanvas = new();
+        public readonly ReactiveProperty<Canvas> UnlockCanvas = new();
         public readonly ReactiveProperty<Canvas> LockCanvas = new();
 
         [Inject]
@@ -31,12 +32,14 @@ namespace Ui
             _model.IsPause.OnChanged += OnСallingPause;
             NameLoadScene.OnChanged += OnLoadScene;
             TelegramLink.OnChanged += OpenTelegram;
-            UnLockCanvas.OnChanged += UnlockCanvas;
+            UnlockCanvas.OnChanged += OnUnlockCanvas;
             LockCanvas.OnChanged += OnLockCanvas;
+            ChoisePlayer.OnChanged += OnInvokeChoisePlayer;
         }
 
-        private void UnlockCanvas(Canvas obj) => obj.enabled = true;
+        private void OnUnlockCanvas(Canvas obj) => obj.enabled = true;
         private void OnLockCanvas(Canvas obj) => obj.enabled = false;
+        private void OnInvokeChoisePlayer(Type type) => InvokeChoisePlayer.Invoke(type);
         public void ExitGame() => Application.Quit();
         private void OnLoadScene(string namedScene) => SceneManager.LoadScene(namedScene);
         private void OnModelCountCouponChanged(int couponCount) => CouponCount.Value = couponCount;
@@ -52,8 +55,9 @@ namespace Ui
             NameLoadScene.OnChanged -= OnLoadScene;
             TelegramLink.OnChanged -= OpenTelegram;
             IsPause.OnChanged -= OnСallingPause;
-            UnLockCanvas.OnChanged -= UnlockCanvas;
+            UnlockCanvas.OnChanged -= OnUnlockCanvas;
             LockCanvas.OnChanged -= OnLockCanvas;
+            ChoisePlayer.OnChanged -= OnInvokeChoisePlayer;
         }
     }
 }

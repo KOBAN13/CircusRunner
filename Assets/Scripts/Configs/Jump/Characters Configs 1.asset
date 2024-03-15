@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Characters Configs 1
   m_EditorClassIdentifier: 
   <JumpTime>k__BackingField: 1
-  <JumpHeight>k__BackingField: 4
+  <JumpHeight>k__BackingField: 1.5
